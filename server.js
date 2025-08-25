@@ -3,6 +3,10 @@ import fetch, { Headers } from "node-fetch";
 
 const app = express();
 
+// 静态文件：生成器网页
+app.use(express.static("public"));
+
+// ====== CORS ======
 app.use((req, res, next) => {
   res.set({
     "Access-Control-Allow-Origin": "*",
@@ -19,6 +23,7 @@ const UA_MAP = {
   "mursor.ottiptv.cc": "okHttp/Mod-1.1.0",
 };
 
+// 工具函数
 function toAbs(child, base) { try { return new URL(child, base).toString(); } catch { return child; } }
 function makeGW(origin, absUrl, qs, keepM3U8Suffix = true) {
   const u = new URL(keepM3U8Suffix ? "/proxy.m3u8" : "/proxy", origin);
@@ -69,6 +74,7 @@ async function rewriteM3U8(text, baseUrl, self, qs) {
   return out.join("\n");
 }
 
+// ====== 路由 ======
 app.get("/", (req, res) => res.status(200).send("OK m3u-proxy"));
 
 app.get("/single.m3u", (req, res) => {
@@ -115,10 +121,6 @@ app.get(["/proxy", "/proxy.m3u8"], async (req, res) => {
     res.status(502).send("Bad Gateway: " + (e && e.message || String(e)));
   }
 });
-
-// ---- 强化启动日志 & 兜底 ----
-process.on("unhandledRejection", (e)=>console.error("unhandledRejection:", e));
-process.on("uncaughtException", (e)=>console.error("uncaughtException:", e));
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
