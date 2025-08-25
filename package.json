@@ -1,7 +1,7 @@
 {
   "name": "m3u-proxy",
   "version": "1.0.0",
-  "description": "HLS proxy with UA/Referer/Origin forwarding and m3u8 cascading rewrite",
+  "description": "HLS proxy with UA/Referer/Origin forwarding and m3u8 cascading rewrite + link generator UI",
   "type": "module",
   "main": "server.js",
   "scripts": {
