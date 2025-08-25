@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>Migu 链接代理生成器</title>
+  <style>
+    body { font-family: sans-serif; background:#111; color:#eee; padding:20px; }
+    input, button { font-size: 14px; padding: 6px; margin: 4px 0; width: 100%; }
+    textarea { width: 100%; height: 120px; margin-top: 10px; }
+    h2 { color:#0ff; }
+  </style>
+</head>
+<body>
+  <h2>Migu 链接代理生成器</h2>
+  <p>输入原始 Migu 链接（带 <code>migutoken=...</code> 的完整 URL）：</p>
+  <input id="src" placeholder="https://mursor.ottiptv.cc/migu/xxxxxx.m3u8?migutoken=xxxx" />
+  <button onclick="gen()">生成代理地址</button>
+  <textarea id="out" readonly></textarea>
+
+  <script>
+    function gen() {
+      const raw = document.getElementById('src').value.trim();
+      if (!raw) return alert("请输入原始链接");
+      const base = window.location.origin;
+      const encoded = encodeURIComponent(raw);
+      const ua = encodeURIComponent("okHttp/Mod-1.1.0");
+      const ref = encodeURIComponent("https://wap.cmvideo.cn");
+      const origin = encodeURIComponent("https://wap.cmvideo.cn");
+
+      const proxy = `${base}/proxy.m3u8?u=${encoded}&ua=${ua}&ref=${ref}&origin=${origin}`;
+      const single = `${base}/single.m3u?u=${encoded}&name=CCTV测试&ua=${ua}&ref=${ref}&origin=${origin}`;
+
+      document.getElementById('out').value =
+        "播放直链:\n" + proxy + "\n\n订阅链接:\n" + single;
+    }
+  </script>
+</body>
+</html>
