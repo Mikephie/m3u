@@ -1,12 +1,18 @@
 {
   "name": "m3u-proxy",
   "version": "1.0.0",
+  "description": "HLS proxy with UA/Referer/Origin forwarding and m3u8 cascading rewrite",
   "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "express": "^4.19.2",
     "node-fetch": "^3.3.2"
   },
-  "scripts": {
-    "start": "node server.js"
-  }
+  "engines": {
+    "node": "20.x"
+  },
+  "license": "MIT"
 }
