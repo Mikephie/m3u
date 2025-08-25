@@ -75,7 +75,15 @@ async function rewriteM3U8(text, baseUrl, self, qs) {
 }
 
 // ====== 路由 ======
-app.get("/", (req, res) => res.status(200).send("OK m3u-proxy"));
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 app.get("/single.m3u", (req, res) => {
   const { u, name = "Channel", ua = "", ref = "", origin = "" } = req.query;
